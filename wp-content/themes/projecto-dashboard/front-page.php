@@ -249,44 +249,55 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <?php 
+
+                        $args = array( 'post_type' => 'vendedor', 'posts_per_page' => 100);
+                        $loop = new WP_Query( $args );
+                        while ( $loop->have_posts() ) : $loop->the_post();
+
+
+                        $string = the_title('','',false);
+                        if (strlen($string) > 75) {
+                            $stringCut = substr($string, 0, 55);// change 15 top what ever text length you want to show.
+                            $endPoint = strrpos($stringCut, ' ');
+                            $string = $endPoint? substr($stringCut, 0, $endPoint):substr($stringCut, 0);
+                            $string .= ' [...]';
+                        }
+                        $status = get_field('status'); // pega o valor do campo ACF
+                        $classe = ''; // inicia vazio
+
+                        if ($status === 'Acima da Meta') {
+                            $classe = 'text-success bg-success bg-opacity-25';
+                        } elseif ($status === 'Abaixo da Meta') {
+                            $classe = 'text-danger bg-danger bg-opacity-25';
+                        } else {
+                            $classe = 'text-warning bg-warning bg-opacity-25'; // cor neutra p/ outros casos
+                        }
+
+                    
+                    ?>
                     <tr>
-                    <td class="d-flex align-items-center gap-2">
-                        <img 
-                        src="<?php echo get_template_directory_uri(); ?>/img/user-1.jpg" 
-                        alt="img do user"
-                        class="avatar-sm"
-                        >
-                        João Silva
-                    </td>
-                    <td>Equipe A</td>
-                    <td class="fw-bold">€45.2k</td>
-                    <td>€50</td>
-                    <td>28.5%</td>
-                    <td
-                        class="text-success "
-                    >
-                        <span class="bg-success bg-opacity-25 rounded p-1 span-pequeno">Acima da Meta</span>
-                    </td>
+                        <td class="d-flex align-items-center gap-2">
+                            <img 
+                            src="<?php echo get_the_post_thumbnail_url(); ?>" 
+                            alt="img do user"
+                            class="avatar-sm"
+                            >
+                            <?php echo the_field('nome'); ?>
+                        </td>
+                        <td><?php echo the_field('equipa'); ?></td>
+                         <td class="fw-bold">€<?php echo the_field('vendas'); ?></td>
+                        <td>€<?php echo the_field('meta'); ?></td>
+                        <td><?php echo the_field('conversao'); ?>%</td>
+                        <td>
+                            <span class="<?php echo esc_attr($classe); ?> bg-opacity-25 rounded p-1 span-pequeno"><?php echo the_field('status'); ?></span>
+                        </td>
                     </tr>
-                    <tr>
-                    <td class="d-flex align-items-center gap-2">
-                        <img 
-                        src="<?php echo get_template_directory_uri(); ?>/img/user-2.jpg" 
-                        alt="img do user"
-                        class="avatar-sm"
-                        >
-                        Maria Santos
-                    </td>
-                    <td>Equipe B</td>
-                    <td class="fw-bold">€38.7k</td>
-                    <td>€40</td>
-                    <td>24.1%</td>
-                    <td
-                        class="text-warning"
-                    >
-                        <span class="bg-warning bg-opacity-25 rounded p-1 span-pequeno">Próximo da Meta</span>
-                    </td>
-                    </tr>
+                    <?php
+
+                      endwhile;
+
+                    ?>
                 </tbody>
                 </table>
             </div>
