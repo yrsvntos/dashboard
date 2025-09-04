@@ -163,72 +163,68 @@
                 <div class="card-body d-flex flex-column">
                     <h6 class="fw-bold">Ranking dos Vendedores</h6>
                     <div class="vendedores mt-4">
+                    <?php 
+
+                        $args = array( 'post_type' => 'vendedor', 'posts_per_page' => 100);
+                        $loop = new WP_Query( $args );
+                        while ( $loop->have_posts() ) : $loop->the_post();
+
+
+                        $string = the_title('','',false);
+                        if (strlen($string) > 75) {
+                            $stringCut = substr($string, 0, 55);// change 15 top what ever text length you want to show.
+                            $endPoint = strrpos($stringCut, ' ');
+                            $string = $endPoint? substr($stringCut, 0, $endPoint):substr($stringCut, 0);
+                            $string .= ' [...]';
+                        }
+                        $status = get_field('status'); // pega o valor do campo ACF
+                        $classe = ''; // inicia vazio
+                        $posicao = ''; 
+                        $progress = ''; 
+
+                        if ($status === 'Acima da Meta') {
+                            $classe = 'bg-gold';
+                            $progress = 'bg-success';
+                            $posicao = 1;
+                        } elseif ($status === 'Abaixo da Meta') {
+                            $classe = 'bg-bronze';
+                            $progress = '';
+                            $posicao = 3;
+                        } else {
+                            $classe = 'bg-silver'; 
+                            $posicao = 2;
+                            $progress = 'bg-primary';
+                        }
+
+
+                    ?>
                         <div class="vendedor d-flex align-items-center justify-content-between mb-4">
                         <div class="d-flex align-items-center gap-3">
-                            <div class="posicao bg-gold ranking-circle">
-                                1
+                            <div class="posicao  <?php echo esc_attr($classe); ?> ranking-circle">
+                            <?php echo esc_attr($posicao); ?>
                             </div>
                             <div class="perfil d-flex align-items-center gap-3">
                                 <img 
-                                src="<?php echo get_template_directory_uri(); ?>/img/user-1.jpg" 
+                                src="<?php echo get_the_post_thumbnail_url(); ?>" 
                                 alt="img do user"
                                 class="avatar-sm"
                                 >
-                                João Silva
+                                <?php echo the_field('nome'); ?>
                             </div>
                         </div>
                         
                             <div class="valor-obtido">
-                            <span class="fw-bold">€45.2K</span>
+                            <span class="fw-bold">€<?php echo the_field('vendas'); ?>K</span>
                             <div class="progress">
-                                <div class="progress-bar bg-success" role="progressbar " style="width: 85%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                <div class="progress-bar <?php echo esc_attr($classe); ?> <?php echo esc_attr($progress); ?>" role="progressbar " style="width: 85%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
                             </div>
                         </div>
-                        <div class="vendedor d-flex align-items-center justify-content-between mb-4">
-                        <div class="d-flex align-items-center gap-3">
-                            <div class="posicao bg-silver ranking-circle">
-                                2
-                            </div>
-                            <div class="perfil d-flex align-items-center gap-3">
-                                <img 
-                                src="<?php echo get_template_directory_uri(); ?>/img/user-2.jpg" 
-                                alt="img do user"
-                                class="avatar-sm"
-                                >
-                                Maria Santos
-                            </div>
-                        </div>
-                        
-                            <div class="valor-obtido">
-                            <span class="fw-bold">€38.7K</span>
-                            <div class="progress">
-                                <div class="progress-bar" role="progressbar " style="width: 75%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                            </div>
-                        </div>
-                        <div class="vendedor d-flex align-items-center justify-content-between mb-3">
-                        <div class="d-flex align-items-center gap-3">
-                            <div class="posicao bg-bronze ranking-circle">
-                                3
-                            </div>
-                            <div class="perfil d-flex align-items-center gap-3">
-                                <img 
-                                src="<?php echo get_template_directory_uri(); ?>/img/user-4.jpg" 
-                                alt="img do user"
-                                class="avatar-sm"
-                                >
-                                Pedro Costa
-                            </div>
-                        </div>
-                        
-                            <div class="valor-obtido">
-                            <span class="fw-bold">€32.1K</span>
-                            <div class="progress">
-                                <div class="progress-bar bg-warning" role="progressbar " style="width: 70%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                            </div>
-                        </div>
+                        <?php
+
+                        endwhile;
+
+                        ?>
                     </div>
                 </div>
                 </div>
@@ -298,7 +294,7 @@
                             <?php echo the_field('nome'); ?>
                         </td>
                         <td><?php echo the_field('equipa'); ?></td>
-                         <td class="fw-bold">€<?php echo the_field('vendas'); ?></td>
+                         <td class="fw-bold">€<?php echo the_field('vendas'); ?>k</td>
                         <td>€<?php echo the_field('meta'); ?></td>
                         <td><?php echo the_field('conversao'); ?>%</td>
                         <td>
