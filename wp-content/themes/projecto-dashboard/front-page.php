@@ -12,13 +12,20 @@
         <div class="w-100 bg-main p-4">
         <section id="kpi">
         <div class="row mb-2 align-items-stretch">
+        <?php 
+
+            $args = array( 'post_type' => 'kpis', 'posts_per_page' => 100);
+            $loop = new WP_Query( $args );
+            while ( $loop->have_posts() ) : $loop->the_post();
+
+        ?>
             <!-- Total de Vendas -->
             <div class="col-md-3 mb-3">
                 <div class="card shadow-sm bg-white border rounded">
                 <div class="card-body d-flex align-items-center justify-content-between">
                     <div>
                     <h6 class="card-title mb-1 cinzento fw-light fs-6">Total de Vendas</h6>
-                    <p class="card-text fs-4 fw-bold my-3">€142.8K</p>
+                    <p class="card-text fs-4 fw-bold my-3">€<?php echo the_field('total_de_vendas'); ?>K</p>
                     <p class="fw-light cinzento fs-6">
                         <span class="text-success fw-bold"><i class="fas fa-arrow-up me-2"></i>+12.5%</span> vs mês anterior
                     </p>
@@ -37,7 +44,7 @@
                     <div class="card-body d-flex align-items-center justify-content-between">
                     <div>
                         <h6 class="card-title mb-1 cinzento fw-light fs-6">Taxa de Conversão</h6>
-                        <p class="card-text fs-4 fw-bold my-3">24.8%</p>
+                        <p class="card-text fs-4 fw-bold my-3"><?php echo the_field('taxa_de_conversao'); ?>%</p>
                         <p class="fw-light cinzento fs-6">
                         <span class="text-success fw-bold"><i class="fas fa-arrow-up me-2"></i>+3.2%</span> vs mês anterior
                         </p>
@@ -55,7 +62,7 @@
                     <div class="card-body d-flex align-items-center justify-content-between">
                     <div>
                         <h6 class="card-title mb-1 cinzento fw-light fs-6">Ticket Médio</h6>
-                        <p class="card-text fs-4 fw-bold my-3">€2.847</p>
+                        <p class="card-text fs-4 fw-bold my-3">€<?php echo the_field('ticket_medio'); ?></p>
                         <p class="fw-light cinzento fs-6">
                         <span class="text-danger fw-bold"><i class="fas fa-arrow-down me-2"></i>-2.1%</span> vs mês anterior
                         </p>
@@ -73,7 +80,7 @@
                     <div class="card-body d-flex align-items-center justify-content-between">
                     <div>
                         <h6 class="card-title mb-1 cinzento fw-light fs-6">Meta Mensal</h6>
-                        <p class="card-text fs-4 fw-bold my-3">85.2%</p>
+                        <p class="card-text fs-4 fw-bold my-3"><?php echo the_field('meta_mensal'); ?>%</p>
                         <div class="progress">
                         <div class="progress-bar bg-success" role="progressbar" aria-label="Success example" style="width: 85.2%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
@@ -86,6 +93,11 @@
                     </div>
                 </div>
             </div>
+        <?php
+
+            endwhile;
+
+        ?>
         </div>
         </section>
         <section id="kpi-2">
