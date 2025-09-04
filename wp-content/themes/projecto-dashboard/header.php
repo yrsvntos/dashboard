@@ -17,6 +17,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO Básico -->
+    <title><?php wp_title('|', true, 'right'); bloginfo('name'); ?></title>
+    <meta name="description" content="<?php bloginfo('description'); ?>">
+    <meta name="author" content="Nome da Empresa ou Autor">
+
+    <!-- Open Graph (Facebook, LinkedIn, WhatsApp) -->
+    <meta property="og:title" content="<?php wp_title('|', true, 'right'); bloginfo('name'); ?>">
+    <meta property="og:description" content="<?php bloginfo('description'); ?>">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="<?php echo esc_url( home_url() ); ?>">
+    <meta property="og:image" content="<?php echo get_template_directory_uri(); ?>/images/og-image.jpg">
+
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="<?php wp_title('|', true, 'right'); bloginfo('name'); ?>">
+    <meta name="twitter:description" content="<?php bloginfo('description'); ?>">
+    <meta name="twitter:image" content="<?php echo get_template_directory_uri(); ?>/images/twitter-image.jpg">
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
