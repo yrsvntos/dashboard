@@ -112,34 +112,25 @@
 
                         </thead>
                         <tbody>
+                        <?php 
+
+                            $args = array( 'post_type' => 'perfomance_regiao', 'posts_per_page' => 100);
+                            $loop = new WP_Query( $args );
+                            while ( $loop->have_posts() ) : $loop->the_post();
+
+                        ?>
                         <tr>
-                            <td>Q4</td>
-                            <td class="opacity-mid-1">55</td>
-                            <td class="opacity-mid">45</td>
-                            <td class="opacity-full">70</td>
-                            <td class="opacity-mid-2">32</td>
+                            <td><?php echo the_title();?></td>
+                            <td class="opacity-mid-1"><?php echo the_field('norte'); ?></td>
+                            <td class="opacity-mid"><?php echo the_field('centro'); ?></td>
+                            <td class="opacity-full"><?php echo the_field('sul'); ?></td>
+                            <td class="opacity-mid-2"><?php echo the_field('ilhas'); ?></td>
                         </tr>
-                        <tr>
-                            <td>Q3</td>
-                            <td class="opacity-mid-1">48</td>
-                            <td class="opacity-mid">40</td>
-                            <td class="opacity-full">58</td>
-                            <td class="opacity-mid-2">30</td>
-                        </tr>
-                        <tr>
-                            <td>Q2</td>
-                            <td class="opacity-mid-1">52</td>
-                            <td class="opacity-mid">42</td>
-                            <td class="opacity-full">65</td>
-                            <td class="opacity-mid-2">28</td>
-                        </tr>
-                        <tr>
-                            <td>Q1</td>
-                            <td class="opacity-mid-1">45</td>
-                            <td class="opacity-mid">38</td>
-                            <td class="opacity-full">60</td>
-                            <td class="opacity-mid-2">25</td>
-                        </tr>
+                        <?php
+
+                            endwhile;
+
+                        ?>
                         <tr>
                             <td></td>
                             <td>Norte</td>
